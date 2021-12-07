@@ -7,11 +7,24 @@ from graph import Graph
 from parse import parse, findall
 from math import prod
 dirname = os.path.dirname(__file__)
-data = [int(d) for d in open(f'{dirname}/07-input.txt').read().split(',')]
+data = [parse("{token} = {value}", d).named.values() for d in open(f'{dirname}/14-input.txt').read().splitlines()]
 
-# data = [16,1,2,0,4,2,7,1,2,14]
-mina = min(data)
-maxa = max(data)
-sums = [(i, sum((abs(d - i) * (abs(d-i) + 1)) // 2 for d in data)) for i in range(mina, maxa + 1)]
-print(sums)
-print(min(sums, key=lambda t: t[1]))
+def expand(masked_addr):
+    if 'X' in masked_addr:
+        return expand(masked_addr.replace('X', '1', 1)) + expand(masked_addr.replace('X', '0', 1))
+    return [masked_addr]
+
+
+memory = dict()
+for token, value in data:
+    if token == 'mask':
+        mask = value
+    else:
+        addr = parse('mem[{:d}]', token)[0]
+        addr_bin = format(addr, '036b')
+        masked_addr = ''.join(a if m == '0' else '1' if m == '1' else 'X' for m, a in zip(mask, addr_bin))
+        for a in expand(masked_addr):
+            memory[a] = int(value)
+
+
+print(sum(memory.values()))
