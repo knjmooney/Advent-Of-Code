@@ -10,28 +10,9 @@ from math import prod
 from dataclasses import dataclass
 from functools import cache
 dirname = os.path.dirname(__file__)
-data2, messages = open(f'{dirname}/19-input.txt').read().split('\n\n')
-data2 = {s[0]: s[1].replace('"','') for d in data2.splitlines() if (s := d.split(': '))}
+data, messages = open(f'{dirname}/19-input.txt').read().split('\n\n')
+data = {s[0]: s[1].replace('"', '') for d in data.splitlines() if (s := d.split(': '))}
 messages = messages.splitlines()
-
-
-def all_p(n):
-    "I generated all possibilities for part 1"
-    d = data[n]
-    t = d['type']
-    v = d['value']
-    if t == 'char':
-        return v
-    elif t == 'or':
-        a = tuple(all_p(x) for x in v[0])
-        a = [''.join(x) for x in product(*a)] if a[0] is not None else []
-        b = tuple(all_p(x) for x in v[1])
-        b = [''.join(x) for x in product(*b)] if b[0] is not None else []
-        return a + b
-    else:
-        r = tuple(all_p(x) for x in v)
-        r = [''.join(x) for x in product(*r)] if r[0] is not None else []
-        return r
 
 
 def is_valid(alts):
@@ -41,7 +22,7 @@ def is_valid(alts):
 
     while True:
         while seq and message and not seq[0].isalpha():
-            v = data2[seq[0]]
+            v = data[seq[0]]
             if '|' in v:
                 a, b = v.split(' | ')
                 alts.append((b.split() + seq[1:], message[:]))
@@ -67,8 +48,8 @@ def do_check(message):
     return False
 
 
-data2['8'] = "42 | 42 8"
-data2['11'] = "42 31 | 42 11 31"
+data['8'] = "42 | 42 8"
+data['11'] = "42 31 | 42 11 31"
 count = 0
 for m in messages:
     r = do_check(m)
