@@ -22,6 +22,7 @@ def next_state(i, j, image):
         lookup_id += '1' if image.get(nn, '.' if iteration % 2 == 0 else pixels[0]) == '#' else '0'
     return pixels[int(lookup_id, 2)]
 
+
 pixels, image = open(f'{dirname}/20-test-input.txt').read().split('\n\n')
 image = image.splitlines()
 image = {(i, j): image[i][j] for i in range(len(image)) for j in range(len(image[0]))}
@@ -31,6 +32,6 @@ for iteration in range(50):
     jmin = min(j for _, j in image)
     imax = max(i for i, _ in image)
     jmax = max(j for _, j in image)
-    image = {(i, j) : next_state(i, j, image) for i in range(imin - 2, imax + 3) for j in range(jmin - 2, jmax + 3)}
+    image = {(i, j): next_state(i, j, image) for i in range(imin - 2, imax + 3) for j in range(jmin - 2, jmax + 3)}
 
 print(len([i for i in image.values() if i == '#']))

@@ -1,13 +1,7 @@
-import re
 import os
 from collections import Counter, namedtuple
 from itertools import combinations, product
-from pprint import pprint
-from graph import Graph
 from parse import parse, findall
-from math import prod, sqrt
-from bisect import bisect_left, insort
-from copy import deepcopy
 dirname = os.path.dirname(__file__)
 
 def rotatex(p):
@@ -82,6 +76,6 @@ for r in result:
         relative_to_global_origin = tadd(p[orient], relative_origin)
         valid_points.add(relative_to_global_origin)
 
-print(result)
+# print(result)
 print(len(valid_points))
 print(max(sum(abs(e) for e in tdiff(a[1], b[1])) for a in result for b in result))
