@@ -1,1 +1,1 @@
-Solutions to https://adventofcode.com
+Solutions to adventofcode.com
