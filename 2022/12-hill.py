@@ -38,25 +38,21 @@ board[S] = 'a'
 board[E] = 'z'
 nns = [(0, 1), (0, -1), (1, 0), (-1, 0)]
 As = [k for k, v in board.items() if v == 'a']
+visited = set()
 
-scores = []
-for a in As:
-    queue = [(0, a)]
-    visited = set()
+# Saw this clever optimisation on reddit
+queue = [(0, a) for a in As]
 
-    while queue:
-        score, current = heappop(queue)
-        if current in visited:
-            continue
-        visited.add(current)
-        if current == E:
-            scores.append(score)
-        for nn in nns:
-            nextnn = (current[0] + nn[0], current[1] + nn[1])
-            if (current in board and
-                nextnn in board and
-                ord(board[nextnn]) - ord(board[current]) <= 1
-                ):
-                heappush(queue, (score + 1, nextnn))
+while queue:
+    score, current = heappop(queue)
+    if current in visited:
+        continue
+    visited.add(current)
+    if current == E:
+        print(score)
+        break
+    for nn in nns:
+        nextnn = (current[0] + nn[0], current[1] + nn[1])
+        if (nextnn in board and ord(board[nextnn]) - ord(board[current]) <= 1):
+            heappush(queue, (score + 1, nextnn))
 
-print(sorted(scores)[0])
