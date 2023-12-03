@@ -18,13 +18,6 @@ data = (
     .splitlines()
 )
 
-# data = '''1, 1
-# 1, 6
-# 8, 3
-# 3, 4
-# 5, 5
-# 8, 9'''.splitlines()
-
 data = {(int(e[1]), int(e[0])) : id for id, d in enumerate(data) if (e := d.split(', '))}
 
 w = max(d[0] for d in data)
