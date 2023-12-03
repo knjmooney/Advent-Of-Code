@@ -45,4 +45,4 @@ def parse(i, data):
 
 data = [int(d) for d in data]
 
-print(parse(0, data))
+print(parse(0, data)[1])
