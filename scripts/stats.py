@@ -1,11 +1,11 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from requests_cache import CachedSession
 import json
 import sys
 
 
 data = json.loads(
-    CachedSession()
+    CachedSession(expire_after=timedelta(days=1))
     .get(
         f"https://adventofcode.com/2023/leaderboard/private/view/{sys.argv[1]}.json",
         cookies=json.load(open("cookie.json")),
