@@ -1,7 +1,5 @@
 import json
 from requests_cache import CachedSession
-from parse import parse
-from pprint import pprint
 from collections import Counter
 from itertools import combinations_with_replacement
 
@@ -22,19 +20,21 @@ cards = 'J23456789TJQKA'
 def handRank(h):
     assert len(h) == 5
     c = tuple(e[1] for e in Counter(h).most_common())
-    if c[0] == 5:
-        return 10
-    elif c[0] == 4:
-        return 9
-    elif c[0] == 3 and c[1] == 2:
-        return 8
-    elif c[0] == 3:
-        return 7
-    elif c[0] == 2 and c[1] == 2:
-        return 6
-    elif c[0] == 2:
-        return 5
-    return 4
+    match c:
+        case (5, ):
+            return 10
+        case (4, 1):
+            return 9
+        case (3, 2):
+            return 8
+        case (3, *_):
+            return 7
+        case (2, 2, _):
+            return 6
+        case (2, *_):
+            return 5
+        case _:
+            return 4
 
 def hashIt(input):
     a = input[0]
@@ -43,5 +43,4 @@ def hashIt(input):
     return (rank, *(cards.index(e) for e in a))
 
 data = sorted(data, key = hashIt)
-print(list((d, hashIt(d)) for d in data))
 print(sum(i * int(d[1]) for i, d in enumerate(data, 1)))
