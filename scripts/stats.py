@@ -1,6 +1,19 @@
 from datetime import datetime
+from requests_cache import CachedSession
 import json
-data = json.load(open("stats.json"))
+import sys
+
+
+data = json.loads(
+    CachedSession()
+    .get(
+        f"https://adventofcode.com/2023/leaderboard/private/view/{sys.argv[1]}.json",
+        cookies=json.load(open("cookie.json")),
+    )
+    .content.strip()
+    .decode()
+)
+
 members = data['members']
 for member in members.values():
     completions = member['completion_day_level']

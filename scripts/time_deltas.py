@@ -1,11 +1,12 @@
-import json
 from pprint import pprint
 from requests_cache import CachedSession
+import json
+import sys
 
 data = json.loads(
     CachedSession()
     .get(
-        "https://adventofcode.com/2023/leaderboard/private/view/1031571.json",
+        f"https://adventofcode.com/2023/leaderboard/private/view/{sys.argv[1]}.json",
         cookies=json.load(open("cookie.json")),
     )
     .content.strip()
@@ -25,4 +26,4 @@ def getIt(dayId):
             pass
     return result
 
-pprint(sorted(getIt(4))[:20])
+pprint(sorted(getIt(1))[:20])
