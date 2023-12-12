@@ -1,10 +1,7 @@
 """
-Part 1 is straightforward, tedious programming of the rules, and then you just
-have to figure out what starting direction would work.
-
-Part 2 is more interesting. We have the bounds from part 1, so we walk around
-the loop and look either left or right, depending on whether the loop is
-clockwise or anti-clockwise. I think I've hardcoded anti-clockwise.
+For both parts I did a prefix sum of the width of each column/row.
+The distance between two rows/columns is the difference in their
+prefix sum.
 """
 
 import json
@@ -25,18 +22,6 @@ data = (
     .decode()
     .splitlines()
 )
-
-# data = '''\
-# ...#......
-# .......#..
-# #.........
-# ..........
-# ......#...
-# .#........
-# .........#
-# ..........
-# .......#..
-# #...#.....'''.splitlines()
 
 planets = {(i, j) for i, r in enumerate(data) for j, e in enumerate(r) if e == '#'}
 h = len(data)
