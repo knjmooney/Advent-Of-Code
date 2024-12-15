@@ -1,4 +1,5 @@
 '''
+Very explicit row reduction using a rational number module.
 '''
 
 from requests_cache import CachedSession
