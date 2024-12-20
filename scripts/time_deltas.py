@@ -15,7 +15,7 @@ args = parser.parse_args()
 data = json.loads(
     CachedSession(expire_after=timedelta(hours=1))
     .get(
-        f"https://adventofcode.com/2023/leaderboard/private/view/{args.leaderboard_id}.json",
+        f"https://adventofcode.com/2024/leaderboard/private/view/{args.leaderboard_id}.json",
         cookies=json.load(open("cookie.json")),
     )
     .content.strip()
