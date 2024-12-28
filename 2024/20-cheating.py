@@ -18,23 +18,6 @@ data = (
     .decode()
 )
 
-datas = '''###############
-#...#...#.....#
-#.#.#.#.#.###.#
-#S#...#.#.#...#
-#######.#.#.###
-#######.#.#...#
-#######.#.###.#
-###..E#...#...#
-###.#######.###
-#...###...#...#
-#.#####.#.###.#
-#.#...#.#.#...#
-#.#.#.#.#.#.###
-#...#...#...###
-###############
-'''
-
 data = {(i, j): e for i, r in enumerate(data.splitlines()) for j, e in enumerate(r) if e != '#'}
 
 def tadd(a, b):
@@ -83,7 +66,4 @@ for p in scores:
         if saved >= 100:
             result += [(p, nextp, saved, scores[p], scores[nextp])]
 
-# print(result)
 print(len(result))
-# print(Counter(r[2] for r in result))
-# print([r for r in result if r[2] == 4])
