@@ -15,7 +15,7 @@ args = parser.parse_args()
 data = json.loads(
     CachedSession(expire_after=timedelta(hours=1))
     .get(
-        f"https://adventofcode.com/2024/leaderboard/private/view/{args.leaderboard_id}.json",
+        f"https://adventofcode.com/2025/leaderboard/private/view/{args.leaderboard_id}.json",
         cookies=json.load(open("cookie.json")),
     )
     .content.strip()
@@ -30,8 +30,7 @@ def getIt(dayId):
         try:
             first = entry["completion_day_level"][day]["1"]["get_star_ts"]
             second = entry["completion_day_level"][day]["2"]["get_star_ts"]
-            if entry["name"]:
-                result.append((second - first, entry["name"]))
+            result.append((second - first, entry.get("name") or f"anon#{entry['id']}"))
         except:
             pass
     return result
