@@ -11,30 +11,29 @@ data = (
     .content.decode()
 )
 
-data = data.splitlines()
-data = [(int(a), int(b), int(c)) for a, b, c in (line.split(",") for line in data)]
-coords = data
-nnodes = len(data)
-to_connect = 1000
 
 def dist(a, b):
     return sum((x1 - x2) ** 2 for x1, x2 in zip(a, b))
 
-data = [(dist(data[a], data[b]), a, b) for a, b in combinations(range(len(data)), 2)]
-data = sorted(data)
+
+data = [
+    (int(a), int(b), int(c))
+    for a, b, c in (line.split(",") for line in data.splitlines())
+]
+nnodes = len(data)
+
+data = sorted(
+    (dist(data[a], data[b]), a, b, data[a], data[b])
+    for a, b in combinations(range(len(data)), 2)
+)
 
 graph = [{i} for i in range(nnodes)]
-count = 0
-for _, a, b in data:
-    if a in graph[b]:
-        continue
+for _, a, b, pa, pb in data:
     graph[a] |= graph[b]
-    graph[b] |= graph[a]
+    graph[b] = graph[a]
     for nn in graph[b]:
-        graph[nn] |= graph[b]
-    for nn in graph[a]:
-        graph[nn] |= graph[b]
+        graph[nn] = graph[b]
 
-    if(len(graph[a])) == nnodes:
-        print(coords[a][0] * coords[b][0])
+    if (len(graph[a])) == nnodes:
+        print(pa[0] * pb[0])
         break
